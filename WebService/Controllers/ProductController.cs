@@ -4,23 +4,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebLabsV05.DAL.Entities;
+using WebService.Models;
 
 namespace WebService.Controllers
 {
     public class ProductController : Controller
 
     {
-        List<Dish> _dishes;
+        public List<Dish> _dishes;
         List<DishGroup> _dishGroups;
+
+        int _pageSize;
 
         public ProductController()
         {
+            _pageSize = 3;
             SetupData();
         }
 
-        public IActionResult Index()
+        public IActionResult Index(int? group, int pageNo=1)
         {
-            return View(_dishes);
+            var dishesFiltered = _dishes.Where(d => !group.HasValue || d.DishGroupId == group.Value);
+            ViewData["Groups"] = _dishGroups;
+            ViewData["CurrentGroup"] = group ?? 0;
+            var items = _dishes
+                .Skip((pageNo - 1) * _pageSize)
+                .Take(_pageSize)
+                .ToList();
+            return View(ListViewModel<Dish>.GetModel(dishesFiltered, pageNo, _pageSize));
         }
 
 
