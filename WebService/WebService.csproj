@@ -18,6 +18,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\Cart\Pages\" />
+    <Folder Include="wwwroot\lib\bs-custom-file-input\dist\" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\WebLabsV05.DAL\WebLabsV05.DAL.csproj" />
   </ItemGroup>
 

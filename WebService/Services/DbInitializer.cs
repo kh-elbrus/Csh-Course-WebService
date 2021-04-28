@@ -41,6 +41,49 @@ namespace WebService.Services
                 admin = await userManager.FindByEmailAsync("admin@mail.ru");
                 await userManager.AddToRoleAsync(admin, "admin");
             }
+            //проверка наличия групп объектов
+            if (!context.DishGroups.Any())
+            {
+                context.DishGroups.AddRange(
+                new List<DishGroup>
+                {
+                    new DishGroup {GroupName="Стартеры"},
+                    new DishGroup {GroupName="Салаты"},
+                    new DishGroup {GroupName="Супы"},
+                    new DishGroup {GroupName="Основные блюда"},
+                    new DishGroup {GroupName="Напитки"},
+                    new DishGroup {GroupName="Десерты"}
+                });
+                await context.SaveChangesAsync();
+
+            }
+            // проверка наличия объектов
+            if (!context.Dishes.Any())
+            {
+                context.Dishes.AddRange(
+                new List<Dish>
+                {
+                    new Dish {DishName="Грибной суп",
+                    Description="Лук, картофель, сливки, грибы шампиньоны.",
+                    Calories =180, DishGroupId=3, Image="1.jpg" },
+                    new Dish {DishName="Томатный суп",
+                    Description="Лук, чеснок, помидоры, итальянские травы, перец",
+                    Calories =330, DishGroupId=3, Image="2.jpg" },
+                    new Dish {DishName="Салат сыттов",
+                    Description="Фасоль, корейская морковь, сыр, сухари, зелень.",
+                    Calories =120, DishGroupId=4, Image="3.jpg" },
+                    new Dish {DishName="Салат с тунцом",
+                    Description="Тунец, салат, помидор. Подается в пите из пшеничной муки",
+                    Calories =240, DishGroupId=4, Image="2.jpg" },
+                    new Dish {DishName="Морс Gedonia клюква",
+                    Description="500 мл, Вода очищенная, клюква, сахар, брусника.",
+                    Calories =55, DishGroupId=5, Image="3.jpg" },
+                    new Dish {DishName="Fanta",
+                    Description="500 мл, Газированный напиток со вкусом апельсина.",
+                    Calories =40, DishGroupId=5, Image="1.jpg" }
+                });
+                await context.SaveChangesAsync();
+            }
         }
     }
 }
