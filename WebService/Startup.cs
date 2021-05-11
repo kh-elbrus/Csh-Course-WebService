@@ -9,12 +9,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebLabsV05.DAL.Data;
 using WebLabsV05.DAL.Entities;
+using WebService.Extensions;
 using WebService.Models;
 using WebService.Services;
 
@@ -70,8 +72,11 @@ namespace WebService
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
             ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,
+            ILoggerFactory logger)
         {
+            logger.AddFile("Logs/log-{Date}.txt");
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -87,6 +92,7 @@ namespace WebService
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseFileLogging();
 
             app.UseAuthentication();
             app.UseSession();

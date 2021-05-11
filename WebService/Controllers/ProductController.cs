@@ -8,6 +8,7 @@ using WebLabsV05.DAL.Data;
 using WebService.Extensions;
 using WebService.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Logging;
 
 namespace WebService.Controllers
 {
@@ -16,11 +17,13 @@ namespace WebService.Controllers
 
         ApplicationDbContext _context;
         int _pageSize;
+        private ILogger _logger;
 
-        public ProductController(ApplicationDbContext context)
+        public ProductController(ApplicationDbContext context, ILogger<ProductController> logger)
         {
             _pageSize = 3;
             _context = context;
+            _logger = logger;
         }
 
         [Route("Catalog")]
@@ -29,6 +32,8 @@ namespace WebService.Controllers
         {
             var dishesFiltered = _context.Dishes
             .Where(d => !group.HasValue || d.DishGroupId == group.Value);
+
+            _logger.LogInformation($"info: group={group}, page={pageNo}");
             // Получить id текущей группы и поместить в TempData
             ViewData["Groups"] = _context.DishGroups;
             ViewData["CurrentGroup"] = group ?? 0;
