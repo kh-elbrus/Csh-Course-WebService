@@ -11,5 +11,5 @@
 | 5             | Data Flow             | ✔     |
 | 6             | Unit Testing xUnit    | ✔     |
 | 7             | Ajax                  | ✔     |
-| 8             | Razor-Pagesa&Sessions | ✔     |
+| 8             | Razor-Pages&Sessions  | ✔     |
 | 9             | Middleware Web Api    | ✔     |
